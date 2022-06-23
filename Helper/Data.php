@@ -64,7 +64,11 @@ class Data extends \Magento\Payment\Helper\Data
             if (isset($data['title'])) {
                 $methods[$code] = $data['title'];
             } else {
-                $methods[$code] = $this->getMethodInstance($code)->getConfigData('title', $store);
+                try {
+                    $methods[$code] = $this->getMethodInstance($code)->getConfigData('title', $store);
+                } catch (\Exception $e) {
+                    continue;
+                }
             }
             if ($asLabelValue && $withGroups && isset($data['group'])) {
                 $groupRelations[$code] = $data['group'];
